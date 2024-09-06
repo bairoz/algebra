@@ -1,6 +1,6 @@
 from os import system
 from matrices import (crear_matriz, rev_matri,
-                      borrar_matriz, reducir_filas, reducir_columnas,
+                      borrar_matriz, reducir_filas,
                       seleccionar_matriz, imprimir_ecuaciones_y_soluciones)
 
 def solicitar_opcion():
@@ -19,8 +19,6 @@ def solicitar_opcion():
                 print("Opción no válida, por favor ingrese un número entre 1 y 6.")
         except ValueError:
             print("Entrada no válida, por favor ingrese un número entero.")
-
-archivo_matriz = 'matriz.json'
 
 matrices = {}
 
@@ -63,10 +61,6 @@ while True:
                 matriz_rref = reducir_filas(matriz)
                 print("\nMatriz reducida por filas:")
                 rev_matri(matriz_rref)
-            elif tipo_reduccion == '2':
-                matriz_reducida = reducir_columnas(matriz)
-                print("\nMatriz reducida completamente por columnas:")
-                rev_matri(matriz_reducida)
             else:
                 print("Opción no válida.")
         else:

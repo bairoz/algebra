@@ -1,5 +1,9 @@
-import json
+import decimal
+from decimal import Decimal, getcontext
 import os
+
+# Establecer el nivel de precisión que deseas (por ejemplo, 28 dígitos)
+getcontext().prec = 28
 
 matrices = {}
 
@@ -63,8 +67,11 @@ def rref(matriz):
     filas = len(matriz)
     columnas = len(matriz[0])
     
+    # Convertir la matriz a Decimal para mayor precisión
+    matriz = [[Decimal(x) for x in fila] for fila in matriz]
+    
     fila_actual = 0
-    for col in range(columnas - 1):  # Excluye la última columna (términos constantes)
+    for col in range(columnas):
         if fila_actual >= filas:
             break
         
@@ -75,11 +82,13 @@ def rref(matriz):
         
         # Intercambia la fila actual con la fila del pivote
         if max_fila != fila_actual:
+            print(f"Intercambiando fila {fila_actual + 1} con fila {max_fila + 1}")
             matriz[fila_actual], matriz[max_fila] = matriz[max_fila], matriz[fila_actual]
         
         # Normaliza la fila del pivote para que el valor pivote sea 1
         pivote = matriz[fila_actual][col]
         if pivote != 0:
+            print(f"Dividiendo la fila {fila_actual + 1} por {pivote:.2f}")
             for j in range(columnas):
                 matriz[fila_actual][j] /= pivote
         
@@ -87,13 +96,16 @@ def rref(matriz):
         for i in range(filas):
             if i != fila_actual:
                 factor = matriz[i][col]
+                print(f"Restando {factor:.2f} veces la fila {fila_actual + 1} de la fila {i + 1}")
                 for j in range(columnas):
                     matriz[i][j] -= factor * matriz[fila_actual][j]
         
         fila_actual += 1
     
+    # Convertir de vuelta la matriz a flotantes para que sea legible
+    matriz = [[float(x) for x in fila] for fila in matriz]
+    
     return matriz
-
 
 def es_inconsistente(matriz_rref):
     filas = len(matriz_rref)
@@ -172,18 +184,3 @@ def imprimir_ecuaciones_y_soluciones(matriz_aumentada):
 def reducir_filas(matriz):
     # Aplicar reducción por filas usando RREF
     return rref(matriz)
-
-def reducir_columnas(matriz):
-    # Transponer la matriz, reducir por filas, y luego volver a transponer
-    matriz_transpuesta = list(map(list, zip(*matriz)))
-    matriz_reducida = rref(matriz_transpuesta)
-    return list(map(list, zip(*matriz_reducida)))
-
-def intercambiar_filas(matriz, fila1, fila2):
-    matriz[fila1], matriz[fila2] = matriz[fila2], matriz[fila1]
-    return matriz
-
-def operar_filas(matriz, fila1, fila2, factor):
-    for i in range(len(matriz[0])):
-        matriz[fila2][i] -= factor * matriz[fila1][i]
-    return matriz
