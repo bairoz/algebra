@@ -82,13 +82,13 @@ def rref(matriz):
         
         # Intercambia la fila actual con la fila del pivote
         if max_fila != fila_actual:
-            print(f"Intercambiando fila {fila_actual + 1} con fila {max_fila + 1}")
+            print(f"Intercambiando F{fila_actual + 1} <-> F{max_fila + 1}")
             matriz[fila_actual], matriz[max_fila] = matriz[max_fila], matriz[fila_actual]
         
         # Normaliza la fila del pivote para que el valor pivote sea 1
         pivote = matriz[fila_actual][col]
         if pivote != 0:
-            print(f"Dividiendo la fila {fila_actual + 1} por {pivote:.2f}")
+            print(f"Dividiendo F{fila_actual + 1} / {pivote:.2f}")
             for j in range(columnas):
                 matriz[fila_actual][j] /= pivote
         
@@ -96,7 +96,7 @@ def rref(matriz):
         for i in range(filas):
             if i != fila_actual:
                 factor = matriz[i][col]
-                print(f"Restando {factor:.2f} veces la fila {fila_actual + 1} de la fila {i + 1}")
+                print(f"{factor:.2f}*{fila_actual + 1}-{i + 1}")
                 for j in range(columnas):
                     matriz[i][j] -= factor * matriz[fila_actual][j]
         
@@ -122,7 +122,6 @@ def imprimir_ecuaciones_y_soluciones(matriz_aumentada):
     
     matriz_rref = rref(matriz_aumentada)
     
-    # Verificar si el sistema es inconsistente
     if es_inconsistente(matriz_rref):
         print("El sistema es inconsistente y no tiene solución.")
         return
