@@ -1,3 +1,4 @@
+#if you are in windows change the system ('clear')
 from os import system
 from matrices import (crear_matriz, rev_matri,
                       borrar_matriz, reducir_filas,
@@ -10,7 +11,7 @@ def solicitar_opcion():
                                "1. Crear matriz\n"
                                "2. Revisar matrices\n"
                                "3. Borrar matriz\n"
-                               "4. Método de reducción (filas o columnas)\n"
+                               "4. Método de reducción\n"
                                "5. Imprimir ecuaciones y soluciones\n"
                                "6. Salir\n"))
             if opcion in [1, 2, 3, 4, 5, 6]:
@@ -52,17 +53,9 @@ while True:
     elif opcion == 4:
         matriz = seleccionar_matriz()
         if matriz is not None:
-            print("Opciones de reducción:")
-            tipo_reduccion = input("Elige el tipo de reducción:\n"
-                                   "1. Por filas\n"
-                                   "2. Por columnas\n")
-            
-            if tipo_reduccion == '1':
-                matriz_rref = reducir_filas(matriz)
-                print("\nMatriz reducida por filas:")
-                rev_matri(matriz_rref)
-            else:
-                print("Opción no válida.")
+            matriz_rref = reducir_filas(matriz)
+            print("\nMatriz reducida por filas:")
+            rev_matri(matriz_rref)
         else:
             print("No hay matriz seleccionada para reducir.")
 
