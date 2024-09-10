@@ -96,8 +96,8 @@ def rref(matriz):
         # Elimina los elementos en la columna actual de las otras filas
         for i in range(filas):
             if i != fila_actual:
-                factor = matriz[i][col]
-                print(f"{factor:.2f}*F{fila_actual + 1}-{i + 1}")
+                factor = matriz[i][col]#print(f"F{i + 1} -> F{i + 1} - ({factor:.2f}) * F{fila_actual + 1}")
+                print(f"F{i+1}->F{i + 1}-{factor:.2f}*F{fila_actual + 1}")
                 for j in range(columnas):
                     matriz[i][j] -= factor * matriz[fila_actual][j]
         
