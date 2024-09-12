@@ -1,5 +1,4 @@
 from decimal import Decimal, getcontext
-import os
 
 # Establecer el nivel de precisión que deseas (por ejemplo, 28 dígitos)
 getcontext().prec = 28
@@ -40,13 +39,7 @@ def seleccionar_matriz():
         print("Identificador no válido.")
         return None
     
-def borrar_matriz(identificador, archivo):
-    if os.path.exists(archivo):
-        os.remove(archivo)
-        print(f"Archivo {archivo} eliminado para la matriz '{identificador}'.")
-    else:
-        print(f"El archivo {archivo} no existe.")
-
+def borrar_matriz(identificador):
     if identificador in matrices:
         del matrices[identificador]
         print(f"Matriz '{identificador}' eliminada del diccionario.")
@@ -186,3 +179,22 @@ def imprimir_ecuaciones_y_soluciones(matriz_aumentada):
 def reducir_filas(matriz):
     # Aplicar reducción por filas usando RREF
     return rref(matriz)
+
+def multiplicar_filas_columnas(matriz_a, matriz_b):
+    filas_a, columnas_a = len(matriz_a), len(matriz_a[0])
+    filas_b, columnas_b = len(matriz_b), len(matriz_b[0])
+
+    if filas_a != columnas_b  or filas_b != columnas_a :
+        print("Error: Las matrices deben tener el mismo tamaño para ser multiplicadas.")
+        return None
+
+    matriz_resultado = [[0 for _ in range(columnas_b)] for _ in range(filas_a)]
+
+    # Multiplicar las matrices
+    for i in range(filas_a):
+        for j in range(columnas_b):
+            for k in range(columnas_a):
+                matriz_resultado[i][j] += matriz_a[i][k] * matriz_b[k][j]
+
+    print("Multiplicación de matrices realizada con éxito.")
+    return matriz_resultado
