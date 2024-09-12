@@ -1,6 +1,5 @@
 from decimal import Decimal, getcontext
 
-# Establecer el nivel de precisión que deseas (por ejemplo, 28 dígitos)
 getcontext().prec = 28
 
 matrices = {}
@@ -59,7 +58,6 @@ def rref(matriz):
     filas = len(matriz)
     columnas = len(matriz[0])
     
-    # Convertir la matriz a Decimal para mayor precisión
     matriz = [[Decimal(x) for x in fila] for fila in matriz]
     
     fila_actual = 0
@@ -78,7 +76,6 @@ def rref(matriz):
             print(f"Intercambiando F{fila_actual + 1} <-> F{max_fila + 1}")
             matriz[fila_actual], matriz[max_fila] = matriz[max_fila], matriz[fila_actual]
         
-        # Normaliza la fila del pivote para que el valor pivote sea 1
         pivote = matriz[fila_actual][col]
         if pivote != 0:
             print("--------------------------------------------------------")
@@ -86,7 +83,6 @@ def rref(matriz):
             for j in range(columnas):
                 matriz[fila_actual][j] /= pivote
         
-        # Elimina los elementos en la columna actual de las otras filas
         for i in range(filas):
             if i != fila_actual:
                 factor = matriz[i][col]
