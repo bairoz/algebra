@@ -190,11 +190,15 @@ def multiplicar_filas_columnas(matriz_a, matriz_b):
 
     matriz_resultado = [[0 for _ in range(columnas_b)] for _ in range(filas_a)]
 
-    # Multiplicar las matrices
     for i in range(filas_a):
         for j in range(columnas_b):
             for k in range(columnas_a):
-                matriz_resultado[i][j] += matriz_a[i][k] * matriz_b[k][j]
+                for m in range(filas_b):
+                    matriz_resultado[i][j] += matriz_a[i][k] * matriz_b[k][m]
 
-    print("Multiplicación de matrices realizada con éxito.")
+    identificador = input("Ingresa un identificador para la nueva matriz resultante: ")
+
+    matrices[identificador] = matriz_resultado
+
+    print(f"Matriz '{identificador}' creada y guardada con éxito.")
     return matriz_resultado
