@@ -17,6 +17,7 @@ def crear_matriz():
         for j in range(columnas):
             valor = float(input(f"Ingresa el valor para la posición ({i}, {j}): "))
             fila.append(valor)
+            
         matriz.append(fila)
 
     matrices[identificador] = matriz
@@ -180,21 +181,91 @@ def multiplicar_filas_columnas(matriz_a, matriz_b):
     filas_a, columnas_a = len(matriz_a), len(matriz_a[0])
     filas_b, columnas_b = len(matriz_b), len(matriz_b[0])
 
-    if filas_a != columnas_b  or filas_b != columnas_a :
-        print("Error: Las matrices deben tener el mismo tamaño para ser multiplicadas.")
+    # Verificar si se están multiplicando matrices
+    if columnas_a == filas_b:
+        # Multiplicación de matrices
+        matriz_resultado = [[0 for _ in range(columnas_b)] for _ in range(filas_a)]
+
+        for i in range(filas_a):
+            for j in range(columnas_b):
+                for k in range(columnas_a):
+                    matriz_resultado[i][j] += matriz_a[i][k] * matriz_b[k][j]
+
+        identificador = input("Ingresa un identificador para la nueva matriz resultante: ")
+        matrices[identificador] = matriz_resultado
+
+        print(f"Matriz '{identificador}' creada y guardada con éxito.")
+        return matriz_resultado
+    else:
+        # Verificar si se están multiplicando vectores columna (producto punto)
+        if columnas_a == 1 and columnas_b == 1 and filas_a == filas_b:
+            producto_punto = sum(matriz_a[i][0] * matriz_b[i][0] for i in range(filas_a))
+            
+            print(f"El producto de los vectores es: {producto_punto:.2f}")
+            return producto_punto
+        else:
+            print("Error: Las dimensiones de los vectores no son compatibles para el producto punto.")
+            return None
+
+
+
+def suma_vectorial(vectores, escalares):
+    if len(vectores) != len(escalares):
+        print("Error: El número de vectores debe coincidir con el número "
+              "de escalares.")
         return None
 
-    matriz_resultado = [[0 for _ in range(columnas_b)] for _ in range(filas_a)]
+    filas, columnas = len(vectores[0]), len(vectores[0][0])
 
-    for i in range(filas_a):
-        for j in range(columnas_b):
-            for k in range(columnas_a):
-                for m in range(filas_b):
-                    matriz_resultado[i][j] += matriz_a[i][k] * matriz_b[k][m]
+    for vector in vectores:
+        if len(vector) != filas or len(vector[0]) != columnas:
+            print("Error: Todos los vectores deben tener el mismo tamaño.")
+            return None
 
-    identificador = input("Ingresa un identificador para la nueva matriz resultante: ")
+    matriz_resultado = [[0 for _ in range(columnas)] for _ in range(filas)]
 
+    for idx, vector in enumerate(vectores):
+        escalar = escalares[idx]
+        for i in range(filas):
+            for j in range(columnas):
+                matriz_resultado[i][j] += escalar * vector[i][j]
+
+    identificador = input("Ingrese un identificador para el vector resultante: ")
     matrices[identificador] = matriz_resultado
-
-    print(f"Matriz '{identificador}' creada y guardada con éxito.")
+    print(f"Vector '{identificador}' creado y guardado con éxito.")
+    
     return matriz_resultado
+
+def resta_vectorial(vectores, escalares):
+    if len(vectores) != len(escalares):
+        print("Error: El número de vectores debe coincidir con el número "
+              "de escalares.")
+        return None
+
+    filas, columnas = len(vectores[0]), len(vectores[0][0])
+
+    for vector in vectores:
+        if len(vector) != filas or len(vector[0]) != columnas:
+            print("Error: Todos los vectores deben tener el mismo tamaño.")
+            return None
+
+    matriz_resultado = [[escalares[0] * vectores[0][i][j] 
+                         for j in range(columnas)] 
+                        for i in range(filas)]
+
+    for idx, vector in enumerate(vectores[1:], start=1):
+        escalar = escalares[idx]
+        for i in range(filas):
+            for j in range(columnas):
+                matriz_resultado[i][j] -= escalar * vector[i][j]
+
+    identificador = input("Ingrese un identificador para el vector resultante: ")
+    matrices[identificador] = matriz_resultado
+    print(f"Vector '{identificador}' creado y guardado con éxito.")
+    
+    return matriz_resultado
+
+
+    
+    
+    
