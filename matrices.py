@@ -265,6 +265,61 @@ def resta_vectorial(vectores, escalares):
     
     return matriz_resultado
 
+def calcular_distributiva(matriz_a, vector_u, vector_v):
+    
+    columnas_a = len(matriz_a[0])
+    filas_u, columnas_u = len(vector_u), len(vector_u[0])
+    filas_v, columnas_v = len(vector_v), len(vector_v[0])
+    
+    if columnas_a != filas_u or columnas_a != filas_v or filas_u != filas_v or columnas_u != 1 or columnas_v != 1:
+        print("Error: Las dimensiones de la matriz y los vectores no son compatibles.")
+        return None
+    
+    # Sumar u + v
+    vector_suma = [[vector_u[i][j] + vector_v[i][j] for j in range(columnas_u)] for i in range(filas_u)]
+    
+    resultado_au_v = multiplicar_matriz_vector(matriz_a, vector_suma)
+    
+    resultado_au = multiplicar_matriz_vector(matriz_a, vector_u)
+    
+    resultado_av = multiplicar_matriz_vector(matriz_a, vector_v)
+    
+    resultado_au_mas_av = [[resultado_au[i][j] + resultado_av[i][j] for j in range(len(resultado_au[0]))] for i in range(len(resultado_au))]
+    
+    print("\nResultado de A(u + v):")
+    rev_matri(resultado_au_v)
+    
+    print("\nResultado de Au + Av:")
+    rev_matri(resultado_au_mas_av)
+    
+    return resultado_au_v, resultado_au_mas_av
+
+
+def multiplicar_matriz_vector(matriz_a, vector):
+    filas_a, columnas_a = len(matriz_a), len(matriz_a[0])
+    filas_v, columnas_v = len(vector), len(vector[0])
+    
+    # Verificar si es un vector columna
+    if columnas_v != 1:
+        print("Error: El segundo argumento no es un vector columna.")
+        return None
+
+    # Verificar si las dimensiones son compatibles
+    if columnas_a != filas_v:
+        print("Error: Las dimensiones de la matriz y el vector no son compatibles para la multiplicación.")
+        return None
+
+    # Inicializar el vector resultado
+    vector_resultado = [[0] for _ in range(filas_a)]
+    
+    # Realizar la multiplicación de la matriz por el vector columna
+    for i in range(filas_a):
+        for j in range(columnas_a):
+            vector_resultado[i][0] += matriz_a[i][j] * vector[j][0]
+    
+    return vector_resultado
+
+
 
     
     
